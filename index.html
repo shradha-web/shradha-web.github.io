@@ -13,33 +13,87 @@
     </h3></p>
   </marquee><br>
 
-
-
-
-
-
+<meta name="viewport"
+    content="width"=device-width,initial-scale="1">
 <style>
- h2{text-align: center}
- h1{text-align: center;}
- h4{text-align: center;}
- B{text-align: center;}
- img{align: center;}
-h2{background-color:#454545;}
-{ text-align: center;}
-  h2{color:#00FFFF;}
- h3{background-color:}
- a:visited {
-  color: #36013F;
-  background-color: transparent;
-  text-decoration: none;
+    body{
+        font-family:"Lato",sans-serif;}
 
- <hr>
+     .tablink{
+        background-color: #C0C0C0;
+        color:blue;
+        float:left;
+        border: none;
+        cursor:pointer;
+        padding: 14px 16px;
+        font-size: 17px;
+        width: 20%;
+    
+     }   
+    
+     .tablink:hover {
+  background-color: #777;
+}
+
+.tabcontent {
+  color: #FFFFFF;
+  display: none;
+  padding: 20x;
+  text-align: center;
+}
+
+#php{background-color:#008080;}
+#python {background-color:#008080;}
+#html {background-color:#008080;}
+#SQL {background-color:#008080;}
+#java {background-color:#008080;}
+
+
 </style>
-
-</body
- 
+</head>
 
 
+
+
+
+
+
+
+
+
+
+<button class="tablink" onclick="openCity('php', this, '#008080')" id="defaultOpen"> <li><a href="indexprogram.html">be-coder..</a> </button>
+<button class="tablink" onclick="openCity('html', this, '#008080')"><li><a href="shradha.html">explore..  </a></button>
+<button class="tablink" onclick="openCity('SQL', this, '#008080')"><li><a href="shopp.html">shopping </a></button>
+<button class="tablink" onclick="openCity('java', this, '#008080')"><li><a href="program.html">traveler.. </a></button>
+ <button class="tablink" onclick="openCity('python', this, '#008080 ')"><li><a href="indexprogram.html">restorant</a> </button>
+
+
+
+
+
+
+
+<script>
+function openCity(cityName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(cityName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+
+}
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+<body <img src=sss.jpg  height="500px" width="1200px">>
 
 
 
@@ -71,12 +125,15 @@ h2{background-color:#454545;}
  <hr>
 </style>
 
-<body>
-<hr>
-
+</body
 <hr>
 <center><img src=s1.jpg height="500px" width="1350px"></center>
+
+ 
 </body>
 <ul>
 </body>
 </html>
+
+
+
