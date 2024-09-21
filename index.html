@@ -13,6 +13,129 @@
     </h3></p>
   </marquee><br>
 
+
+
+ <meta charset="UTF-8">
+    <meta name="viewport" content="width=1300px, initial-scale=1.0">
+    <title>Tabbed Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f9f9f9;
+        }
+        .container {
+            text-align: center;
+            width: 1400px;
+            max-width: 1400px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .tab-button {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+            margin: 0 5px;
+            border-radius: 5px;
+        }
+        .tab-button:hover {
+            background-color: #ddd;
+        }
+        .tab-content {
+            border: 1px solid #ccc;
+            padding: 20px;
+            display: none; /* Hide all content by default */
+        }
+        .tab-content.active {
+            display: block; /* Show active tab content */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="tabs">
+            <button class="tab-button" onclick="openTab(event, 'about')">About Me</button>
+            <button class="tab-button" onclick="openTab(event, 'websites')">My Websites</button>
+            <button class="tab-button" onclick="openTab(event, 'achievements')">Achievements</button>
+        </div>
+
+        <div id="about" class="tab-content active">
+            <h2>About Me</h2>
+            <p>Write a brief introduction about yourself here.</p>
+        </div>
+
+        <div id="websites" class="tab-content">
+            <h2>My Websites</h2>
+            <ul>
+                <li><a href="https://example1.com" target="_blank">Example Website 1</a></li>
+                <li><a href="https://example2.com" target="_blank">Example Website 2</a></li>
+            </ul>
+        </div>
+
+        <div id="achievements" class="tab-content">
+            <h2>Achievements</h2>
+            <ul>
+                <li>Achievement 1</li>
+                <li>Achievement 2</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab content
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.style.display = 'none');
+
+            // Remove active class from all buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+
+            // Show the selected tab content
+            document.getElementById(tabName).style.display = 'block';
+            evt.currentTarget.classList.add('active');
+        }
+
+        // Open the default tab
+        document.querySelector('.tab-button').click();
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <meta name="viewport"
     content="width"=device-width,initial-scale="1">
 <style>
@@ -133,105 +256,7 @@ h2{background-color:#454545;}
 
 
 
-  <meta charset="UTF-8">
-    <meta name="viewport" content="width=1300px, initial-scale=1.0">
-    <title>Tabbed Interface</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f9f9f9;
-        }
-        .container {
-            text-align: center;
-            width: 1400px;
-            max-width: 1400px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            background-color: white;
-        }
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        .tab-button {
-            padding: 10px 20px;
-            cursor: pointer;
-            border: 1px solid #ccc;
-            background-color: #f1f1f1;
-            margin: 0 5px;
-            border-radius: 5px;
-        }
-        .tab-button:hover {
-            background-color: #ddd;
-        }
-        .tab-content {
-            border: 1px solid #ccc;
-            padding: 20px;
-            display: none; /* Hide all content by default */
-        }
-        .tab-content.active {
-            display: block; /* Show active tab content */
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="tabs">
-            <button class="tab-button" onclick="openTab(event, 'about')">About Me</button>
-            <button class="tab-button" onclick="openTab(event, 'websites')">My Websites</button>
-            <button class="tab-button" onclick="openTab(event, 'achievements')">Achievements</button>
-        </div>
-
-        <div id="about" class="tab-content active">
-            <h2>About Me</h2>
-            <p>Write a brief introduction about yourself here.</p>
-        </div>
-
-        <div id="websites" class="tab-content">
-            <h2>My Websites</h2>
-            <ul>
-                <li><a href="https://example1.com" target="_blank">Example Website 1</a></li>
-                <li><a href="https://example2.com" target="_blank">Example Website 2</a></li>
-            </ul>
-        </div>
-
-        <div id="achievements" class="tab-content">
-            <h2>Achievements</h2>
-            <ul>
-                <li>Achievement 1</li>
-                <li>Achievement 2</li>
-            </ul>
-        </div>
-    </div>
-
-    <script>
-        function openTab(evt, tabName) {
-            // Hide all tab content
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.style.display = 'none');
-
-            // Remove active class from all buttons
-            const tabButtons = document.querySelectorAll('.tab-button');
-            tabButtons.forEach(button => button.classList.remove('active'));
-
-            // Show the selected tab content
-            document.getElementById(tabName).style.display = 'block';
-            evt.currentTarget.classList.add('active');
-        }
-
-        // Open the default tab
-        document.querySelector('.tab-button').click();
-    </script>
-
-
+ 
  
 </body>
 <ul>
