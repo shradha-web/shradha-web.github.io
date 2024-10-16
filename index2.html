@@ -1,15 +1,443 @@
+
 <!DOCTYPE html>
 <html>
 <head>
+
+</head>
+
+
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-body {
-  background-image: url('a.jpg');
+* {box-sizing: border-box;}
+
+body { 
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#navbar {
+  overflow: hidden;
+  background-color: #f1f1f1;
+  padding: 90px 10px;
+  transition: 0.4s;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 99;
+}
+
+#navbar a {
+  float: left;
+  color: black;
+  text-align: center;
+  padding: 12px;
+  text-decoration: none;
+  font-size: 18px; 
+  line-height: 25px;
+  border-radius: 4px;
+}
+
+#navbar #logo {
+  font-size: 35px;
+  font-weight: bold;
+  transition: 0.4s;
+}
+
+#navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+#navbar a.active {
+  background-color: dodgerblue;
+  color: white;
+}
+
+#navbar-right {
+  float: right;
+}
+
+@media screen and (max-width: 580px) {
+  #navbar {
+    padding: 20px 10px !important;
+  }
+  #navbar a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+  #navbar-right {
+    float: none;
+  }
 }
 </style>
 </head>
 <body>
- <h1> my wesites</h1>
+
+<div id="navbar">
+  <a href="#default" id="logo"> shradhaj project</a>
+  <div id="navbar-right">
+    <a class="active" href="#home">Home</a>
+    <a href="#contact">Contact</a>
+    <a href="#about">About</a>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="viewport"
+    content="width"=1300px,initial-scale="1">
+<style>
+    body{
+        font-family:"Lato",sans-serif;}
+
+     .tablink{
+        background-color: gray;
+        color:blue;
+        float:left;
+        border: none;
+        cursor:pointer;
+        padding: 14px 16px;
+        font-size: 17px;
+        width: 33.3%;
+    
+     }   
+    
+     .tablink:hover {
+  background-color: #777;
+}
+
+.tabcontent {
+  color: #FFFFFF;
+  display: none;
+  padding: 20x;
+  text-align: center;
+}
+
+#php{background-color:#008080;}
+#python {background-color:#008080;}
+#html {background-color:#008080;}
+
+
+</style>
+</head>
+
+
+
+
+
+
+
+
+
+
+<button class="tablink" onclick="openCity('php', this, '#008080')" id="defaultOpen"> <li><a href="aboutme.html">about me</a> </button>
+<button class="tablink" onclick="openCity('html', this, '#008080')"><li><a href="mywebsites.html">my-all-websites  </a></button>
+<button class="tablink" onclick="openCity('SQL', this, '#008080')"><li><a href="achivments.html">achivments </a></button>
+
+
+
+
+
+<script>
+function openCity(cityName,elmnt,color) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(cityName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+
+}
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {box-sizing: border-box;}
+body {font-family: Verdana, sans-serif;}
+.mySlides {display: none;}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  height: 10px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
+</style>
+</head>
+<body>
+
+   
+
+<div class="slideshow-container">
+
+<center><div class="mySlides fade">
+  <div class="numbertext">1 / 3</div>
+  <img src=s1.jpg height="500px" width="1000px">
+  <div class="text">Caption Text</div></cenetr>
+</div>
+
+  
+<center><div class="mySlides fade">
+  <div class="numbertext">3 / 3</div>
+  <img src=rest2.jpg height="500px" width="1000px">
+  <div class="text">Caption Three</div></cenetr>
+</div>
+
+
+
+<center><div class="mySlides fade">
+  <div class="numbertext">3 / 3</div>
+  <img src=rest3.jpg height="500px" width="1000px">
+  <div class="text">Caption Three</div></cenetr>
+</div>
+
+
+  
+
+  
+<center><div class="mySlides fade">
+  <div class="numbertext">3 / 4</div>
+  <img src=rest4.jpeg height="500px" width="1000px">
+  <div class="text">Caption Three</div></cenetr>
+</div>
+
+</div>
+<br>
+
+<div style="text-align:center">
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+  <span class="dot"></span> 
+</div>
+
+<script>
+let slideIndex = 0;
+showSlides();
+
+function showSlides() {
+  let i;
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  slideIndex++;
+  if (slideIndex > slides.length) {slideIndex = 1}    
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[slideIndex-1].style.display = "block";  
+  dots[slideIndex-1].className += " active";
+  setTimeout(showSlides, 2000); // Change image every 2 seconds
+}
+</script>
 
 </body>
-</html>
+</html> 
 
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  </div>
+
+<script>
+// When the user scrolls down 80px from the top of the document, resize the navbar's padding and the logo's font size
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
+    document.getElementById("navbar").style.padding = "30px 10px";
+    document.getElementById("logo").style.fontSize = "25px";
+  } else {
+    document.getElementById("navbar").style.padding = "80px 10px";
+    document.getElementById("logo").style.fontSize = "35px";
+  }
+}
+</script>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style>
+ h2{text-align: center}
+ h1{text-align: center;}
+ h4{text-align: center;}
+ B{text-align: center;}
+ img{align: center;}
+h2{background-color:}
+{ text-align: center;}
+  h2{color:#FDBD01;}
+ h3{color:#FDBD01;}
+   h4{color:#FDBD01;}
+ a:visited {
+  color: #36013F;
+  background-color: transparent;
+  text-decoration: none;
+
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+  
+
+</body>
+</html> 
