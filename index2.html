@@ -1,61 +1,35 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-
-</head>
-
-
-</head>
-<body>
-
-
-
-
-
-
-
-
-
-
-
-
-  
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-* {box-sizing: border-box;}
-
-body { 
+body {
   margin: 0;
+  font-size: 28px;
   font-family: Arial, Helvetica, sans-serif;
 }
 
-#navbar {
-  overflow: hidden;
+.header {
   background-color: #f1f1f1;
-  padding: 90px 10px;
-  transition: 0.4s;
-  position: fixed;
-  width: 100%;
+  padding: 30px;
+  text-align: center;
+}
+
+#navbar {
+  position: sticky;
   top: 0;
-  z-index: 99;
+  overflow: hidden;
+  background-color: #333;
 }
 
 #navbar a {
   float: left;
-  color: black;
+  display: block;
+  color: #f2f2f2;
   text-align: center;
-  padding: 12px;
+  padding: 14px 16px;
   text-decoration: none;
-  font-size: 18px; 
-  line-height: 25px;
-  border-radius: 4px;
-}
-
-#navbar #logo {
-  font-size: 35px;
-  font-weight: bold;
-  transition: 0.4s;
+  font-size: 17px;
 }
 
 #navbar a:hover {
@@ -64,160 +38,31 @@ body {
 }
 
 #navbar a.active {
-  background-color: dodgerblue;
+  background-color: #04AA6D;
   color: white;
 }
 
-#navbar-right {
-  float: right;
+.content {
+  padding: 16px;
 }
 
-@media screen and (max-width: 580px) {
-  #navbar {
-    padding: 20px 10px !important;
-  }
-  #navbar a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-  #navbar-right {
-    float: none;
-  }
-}
 </style>
 </head>
 <body>
 
+<div class="header">
+  <h2>Scroll Down</h2>
+  <p>Scroll down to see the sticky effect.</p>
+</div>
+
 <div id="navbar">
-  <a href="#default" id="logo"> shradhaj project</a>
-  <div id="navbar-right">
-    <a class="active" href="#home">Home</a>
-    <a href="#contact">Contact</a>
-    <a href="#about">About</a>
-  </div>
+  <a class="active" href="javascript:void(0)">Home</a>
+  <a href="javascript:void(0)">News</a>
+  <a href="javascript:void(0)">Contact</a>
 </div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-<meta name="viewport"
-    content="width"=1300px,initial-scale="1">
-<style>
-    body{
-        font-family:"Lato",sans-serif;}
-
-     .tablink{
-        background-color: gray;
-        color:blue;
-        float:left;
-        border: none;
-        cursor:pointer;
-        padding: 14px 16px;
-        font-size: 17px;
-        width: 33.3%;
-    
-     }   
-    
-     .tablink:hover {
-  background-color: #777;
-}
-
-.tabcontent {
-  color: #FFFFFF;
-  display: none;
-  padding: 20x;
-  text-align: center;
-}
-
-#php{background-color:#008080;}
-#python {background-color:#008080;}
-#html {background-color:#008080;}
-
-
-</style>
-</head>
-
-
-
-
-
-
-
-
-
-
-<button class="tablink" onclick="openCity('php', this, '#008080')" id="defaultOpen"> <li><a href="aboutme.html">about me</a> </button>
-<button class="tablink" onclick="openCity('html', this, '#008080')"><li><a href="mywebsites.html">my-all-websites  </a></button>
-<button class="tablink" onclick="openCity('SQL', this, '#008080')"><li><a href="achivments.html">achivments </a></button>
-
-
-
-
-
-<script>
-function openCity(cityName,elmnt,color) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
-    tabcontent[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < tablinks.length; i++) {
-    tablinks[i].style.backgroundColor = "";
-  }
-  document.getElementById(cityName).style.display = "block";
-  elmnt.style.backgroundColor = color;
-
-}
-// Get the element with id="defaultOpen" and click on it
-document.getElementById("defaultOpen").click();
-</script>
-
-
- 
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
 
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -289,37 +134,29 @@ img {vertical-align: middle;}
 <body>
 
    
+<center><h3>travling with us</h3></cenetr>
+
+  
+<center><p>lets find our self:</p></cenetr>
 
 <div class="slideshow-container">
 
 <center><div class="mySlides fade">
   <div class="numbertext">1 / 3</div>
-  <img src=s1.jpg height="500px" width="1000px">
+  <img src=sl.jpg height="500px" width="1000px">
   <div class="text">Caption Text</div></cenetr>
 </div>
 
-  
 <center><div class="mySlides fade">
-  <div class="numbertext">3 / 3</div>
-  <img src=rest2.jpg height="500px" width="1000px">
-  <div class="text">Caption Three</div></cenetr>
+  <div class="numbertext">2 / 3</div>
+<img src=web2.jpg height="500px" width="1000px">
+<div class="text">Caption Two</div></cenetr>
+
 </div>
-
-
 
 <center><div class="mySlides fade">
   <div class="numbertext">3 / 3</div>
-  <img src=rest3.jpg height="500px" width="1000px">
-  <div class="text">Caption Three</div></cenetr>
-</div>
-
-
-  
-
-  
-<center><div class="mySlides fade">
-  <div class="numbertext">3 / 4</div>
-  <img src=rest4.jpeg height="500px" width="1000px">
+  <img src=web3.jpg height="500px" width="1000px">
   <div class="text">Caption Three</div></cenetr>
 </div>
 
@@ -327,7 +164,6 @@ img {vertical-align: middle;}
 <br>
 
 <div style="text-align:center">
-  <span class="dot"></span> 
   <span class="dot"></span> 
   <span class="dot"></span> 
   <span class="dot"></span> 
@@ -359,85 +195,4 @@ function showSlides() {
 </html> 
 
 
-
-
-
-
-
-
-
-
-
-
-
   
-
-  </div>
-
-<script>
-// When the user scrolls down 80px from the top of the document, resize the navbar's padding and the logo's font size
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-  if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
-    document.getElementById("navbar").style.padding = "30px 10px";
-    document.getElementById("logo").style.fontSize = "25px";
-  } else {
-    document.getElementById("navbar").style.padding = "80px 10px";
-    document.getElementById("logo").style.fontSize = "35px";
-  }
-}
-</script>
-
-</body>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<style>
- h2{text-align: center}
- h1{text-align: center;}
- h4{text-align: center;}
- B{text-align: center;}
- img{align: center;}
-h2{background-color:}
-{ text-align: center;}
-  h2{color:#FDBD01;}
- h3{color:#FDBD01;}
-   h4{color:#FDBD01;}
- a:visited {
-  color: #36013F;
-  background-color: transparent;
-  text-decoration: none;
-
-
-</style>
-
-
-
-
-
-
-
-
-
-
-
-  
-
-</body>
-</html> 
