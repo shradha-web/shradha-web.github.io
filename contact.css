@@ -6,6 +6,7 @@
 section{
 	min-height: 100vh;
 	background-color: #e2ecee;
+	  background: linear-gradient(to top, rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%), url(night.jpg);
 }
 .container{
 	display: flex;
