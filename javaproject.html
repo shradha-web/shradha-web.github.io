@@ -3,67 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Index</title>
+    <title>Index Page</title>
 
     <style>
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            color: #fff;
-            text-align: center;
-            padding: 50px;
+            padding: 40px;
         }
 
         h1 {
-            margin-bottom: 40px;
-            font-size: 40px;
-            letter-spacing: 1px;
+            text-align: center;
+            margin-bottom: 30px;
         }
 
-        .container {
+        .links {
             display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 30px;
-            flex-wrap: wrap;
+            flex-direction: column;  /* vertical */
+            gap: 15px;
+            width: 250px;
+            margin: auto;
         }
 
-        .card {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 25px 35px;
-            border-radius: 15px;
-            width: 280px;
+        a {
             text-decoration: none;
-            color: #fff;
-            font-size: 22px;
-            transition: 0.3s;
-            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.3);
+            background: #f0f0f0;
+            padding: 12px 18px;
+            border-radius: 6px;
+            font-size: 18px;
+            color: #333;
+            border: 1px solid #ccc;
         }
 
-        .card:hover {
-            transform: scale(1.08);
-            background: rgba(255, 255, 255, 0.35);
+        a:hover {
+            background: #ddd;
         }
     </style>
 </head>
 
 <body>
 
-    <h1>My Java Projects</h1>
+    <h1>My Projects</h1>
 
-    <div class="container">
-
-        <!-- Memory Card Game Link -->
-        <a href="memory_card_game.html" class="card">
-            🎮 Memory Card Game
-        </a>
-
-        <!-- Daily Task Completion Link -->
-        <a href="daily_task_completion.html" class="card">
-            📋 Daily Task Completion
-        </a>
-
+    <div class="links">
+        <a href="memory-card-game.html">Memory Card Game</a>
+        <a href="daily-task-completion.html">Daily Task Completion</a>
     </div>
 
 </body>
