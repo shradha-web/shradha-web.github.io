@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Task Completion List</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { 
+      background: linear-gradient(135deg, #4facfe, #00f2fe); 
+      min-height: 100vh; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      position: relative; 
+      overflow-x: hidden; 
+      transition: background 0.3s; 
+    }
+    body.dark-mode { background: linear-gradient(135deg, #2c3e50, #1a202c); }
+    body::before { 
+      content: ''; 
+      position: absolute; 
+      top: 0; left: 0; 
+      width: 100%; height: 100%; 
+      background: url('https://images.unsplash.com/photo-1638486071992-b6f2a9ed0ea5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover; 
+      opacity: 0.15; 
+      z-index: -1; 
+    }
+    .container { 
+      background: rgba(255, 255, 255, 0.95); 
+      padding: 30px; 
+      border-radius: 15px; 
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); 
+      width: 100%; 
+      max-width: 700px; 
+      margin: 20px; 
+      animation: fadeIn 1s ease-in; 
+    }
+    .dark-mode .container { background: rgba(45, 55, 72, 0.95); color: #e2e8f0; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+    h1 { color: #2c3e50; text-align: center; margin-bottom: 10px; font-size: 28px; }
+    .dark-mode h1 { color: #e2e8f0; }
+    .subtitle { color: #34495e; text-align: center; margin-bottom: 20px; font-size: 16px; }
+    .dark-mode .subtitle { color: #a0aec0; }
+    .task-input { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    #taskInput { flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; min-width: 200px; }
+    .dark-mode #taskInput { border-color: #4a5568; background: #2d3748; color: #e2e8f0; }
+    #categorySelect { padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 16px; background: #fff; }
+    .dark-mode #categorySelect { border-color: #4a5568; background: #2d3748; color: #e2e8f0; }
+    #priorityCheckbox { margin-left: 10px; width: 20px; height: 20px; cursor: pointer; }
+    .priority-label { font-size: 14px; color: #2c3e50; display: flex; align-items: center; }
+    .dark-mode .priority-label { color: #e2e8f0; }
+    .add-btn { padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; transition: background 0.3s; }
+    .add-btn:hover { background: #2980b9; }
+    .dark-mode .add-btn { background: #63b3ed; }
+    .dark-mode .add-btn:hover { background: #4299e1; }
+    #taskCount { font-weight: bold; color: #2c3e50; text-align: center; margin-bottom: 10px; font-size: 18px; }
+    .dark-mode #taskCount { color: #e2e8f0; }
+    .progress-container { margin-bottom: 20px; }
+    .progress-bar { width: 100%; height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; }
+    .dark-mode .progress-bar { background: #4a5568; }
+    .progress { height: 100%; background: #27ae60; width: 0; transition: width 0.3s ease; }
+    .filter-container { margin-bottom: 20px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .filter-btn { padding: 8px 15px; background: #6c757d; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; transition: background 0.3s; }
+    .filter-btn:hover { background: #5a6268; }
+    .filter-btn.active { background: #3498db; }
+    ul { list-style: none; max-height: 400px; overflow-y: auto; padding: 0 5px; }
+    li { 
+      display: flex; 
+      align-items: center; 
+      background: #f8f9fa; 
+      padding: 15px; 
+      margin-bottom: 10px; 
+      border-radius: 8px; 
+      transition: transform 0.2s, box-shadow 0.2s; 
+    }
+    .dark-mode li { background: #2d3748; }
+    li:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); }
+    li.completed span.task-text { text-decoration: line-through; color: #7f8c8d; }
+    li.high-priority { border-left: 4px solid #f1c40f; }
+    li input[type="checkbox"] { width: 20px; height: 20px; margin-right: 10px; cursor: pointer; }
+    .priority-btn { background: none; border: none; cursor: pointer; font-size: 20px; margin-right: 10px; }
+    .priority-btn::before { content: '☆'; }
+    .priority-btn.high-priority::before { content: '⭐'; color: #f1c40f; }
+    .category { font-size: 12px; padding: 5px 10px; border-radius: 12px; margin-right: 10px; color: white; }
+    .category-health { background: #27ae60; }
+    .category-productivity { background: #3498db; }
+    .category-personal { background: #e67e22; }
+    .task-text { flex: 1; font-size: 16px; color: #2c3e50; }
+    .dark-mode .task-text { color: #e2e8f0; }
+    li button { padding: 5px 10px; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; margin-left: 5px; font-size: 14px; }
+    li button:hover { background: #c0392b; }
+    .timer-btn { background: #6c757d; min-width: 100px; text-align: center; }
+    .timer-btn:hover { background: #5a6268; }
+    .timer-btn.active { background: #e67e22; }
+    .reset-btn, .theme-btn { display: block; width: 100%; padding: 12px; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; margin-top: 10px; transition: background 0.3s; }
+    .reset-btn { background: #e74c3c; }
+    .reset-btn:hover { background: #c0392b; }
+    .theme-btn { background: #6c757d; }
+    .theme-btn:hover { background: #5a6268; }
+    .star-container { text-align: center; margin-bottom: 20px; font-size: 28px; font-weight: bold; }
+    .star { color: #f1c40f; animation: pulse 1s infinite alternate; }
+    @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.2); } }
+    .reward-message { 
+      margin-top: 20px; 
+      padding: 15px; 
+      background: #27ae60; 
+      color: white; 
+      border-radius: 8px; 
+      font-size: 18px; 
+      text-align: center; 
+      animation: popIn 0.5s ease; 
+      white-space: pre-wrap; 
+    }
+    @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .hidden { display: none; }
+    .db-status { text-align: center; font-size: 12px; color: #666; margin-top: 15px; }
+    @media (max-width: 500px) { 
+      .container { padding: 20px; margin: 10px; } 
+      h1 { font-size: 24px; } 
+      .task-input { flex-direction: column; }
+      .add-btn, .filter-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Daily Task Completion List</h1>
+    <p class="subtitle">Complete all 30 default tasks to earn 5 stars! Add your own tasks too!</p>
+    <div class="star-container" id="starContainer">Total Stars: </div>
+
+    <div class="task-input">
+      <input type="text" id="taskInput" placeholder="Enter a new task...">
+      <select id="categorySelect">
+        <option value="Health">Health</option>
+        <option value="Productivity">Productivity</option>
+        <option value="Personal">Personal</option>
+      </select>
+      <label class="priority-label"><input type="checkbox" id="priorityCheckbox"> High Priority</label>
+      <button class="add-btn" onclick="addTask()">Add Task</button>
+    </div>
+
+    <p id="taskCount">Default Tasks Completed: 0/30</p>
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+    </div>
+
+    <div class="filter-container">
+      <button class="filter-btn active" onclick="filterTasks('All')">All</button>
+      <button class="filter-btn" onclick="filterTasks('Health')">Health</button>
+      <button class="filter-btn" onclick="filterTasks('Productivity')">Productivity</button>
+      <button class="filter-btn" onclick="filterTasks('Personal')">Personal</button>
+    </div>
+
+    <ul id="taskList"></ul>
+
+    <button class="theme-btn" onclick="toggleTheme()">Toggle Dark Mode</button>
+    <button class="reset-btn" onclick="resetTasks()">Reset All Tasks & Stars</button>
+    <div id="rewardMessage" class="reward-message hidden"></div>
+    <div class="db-status">Database: <span id="dbStatus">Initializing...</span></div>
+  </div>
+
+  <audio id="rewardSound" src="https://cdn.pixabay.com/audio/2022/03/24/02-38-29-381_200x200.mp3"></audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+  <script src="https://unpkg.com/idb@7/build/umd.js"></script>
+
+  <script>
+    // ====================== IndexedDB Setup ======================
+    const dbPromise = idb.openDB('DailyTasksDB', 2, {
+      upgrade(db) {
+        if (!db.objectStoreNames.contains('tasks')) {
+          db.createObjectStore('tasks', { keyPath: 'id', autoIncrement: true });
+        }
+        if (!db.objectStoreNames.contains('meta')) {
+          db.createObjectStore('meta', { keyPath: 'key' });
+        }
+      }
+    });
+
+    // ====================== All 30 Default Tasks ======================
+    const defaultTasks = [
+      { text: "Drink a glass of water", category: "Health", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Complete 30 minutes of exercise", category: "Health", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Eat a healthy meal", category: "Health", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Get 7–8 hours of sleep", category: "Health", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Take 10 deep breaths", category: "Health", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Stretch for 5 minutes", category: "Health", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Drink a green tea", category: "Health", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Eat a piece of fruit", category: "Health", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Practice good posture for 10 minutes", category: "Health", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Organize your workspace", category: "Productivity", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Plan tomorrow's schedule", category: "Productivity", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Complete a work/study task", category: "Productivity", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Review and respond to emails", category: "Productivity", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Learn a new skill for 15 minutes", category: "Productivity", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Set a daily goal", category: "Productivity", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Update your to-do list", category: "Productivity", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Back up important files", category: "Productivity", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Organize digital files", category: "Productivity", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Review weekly priorities", category: "Productivity", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Read 10 pages of a book", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Write a journal entry", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Meditate for 10 minutes", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Call a friend or family member", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Practice a hobby for 20 minutes", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Express gratitude (e.g., thank someone)", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Take a short walk outdoors", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Declutter one area", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Write down 3 things you’re proud of", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Listen to a favorite song", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 },
+      { text: "Do a random act of kindness", category: "Personal", priority: false, isDefault: true, completed: false, timeSpent: 0 }
+    ];
+
+    const TOTAL_DEFAULT_TASKS = 30;
+    const motivationalQuotes = [
+      "Success is the sum of small efforts, repeated day in and day out.",
+      "The secret of getting ahead is getting started.",
+      "You don’t have to be great to start, but you have to start to be great.",
+      "The future depends on what you do today.",
+      "Do one thing every day that scares you."
+    ];
+
+    let tasks = [];
+    let totalStars = 0;
+    let currentFilter = 'All';
+    const timers = {};
+    const jsConfetti = new JSConfetti();
+
+    const el = {
+      taskInput: document.getElementById('taskInput'),
+      categorySelect: document.getElementById('categorySelect'),
+      priorityCheckbox: document.getElementById('priorityCheckbox'),
+      taskList: document.getElementById('taskList'),
+      taskCount: document.getElementById('taskCount'),
+      progress: document.getElementById('progress'),
+      starContainer: document.getElementById('starContainer'),
+      rewardMessage: document.getElementById('rewardMessage'),
+      rewardSound: document.getElementById('rewardSound'),
+      dbStatus: document.getElementById('dbStatus')
+    };
+
+    // ====================== Database Functions ======================
+    async function loadData() {
+      const db = await dbPromise;
+      const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+
+      const meta = await db.getAll('meta');
+      const savedDate = meta.find(m => m.key === 'date')?.value;
+      totalStars = meta.find(m => m.key === 'stars')?.value || 0;
+
+      if (savedDate !== today || !savedDate) {
+        // New day → reset only completion
+        tasks = defaultTasks.map(t => ({ ...t, completed: false, timeSpent: 0 }));
+        const customTasks = (await db.getAll('tasks')).filter(t => !t.isDefault);
+        tasks.push(...customTasks.map(t => ({ ...t, completed: false, timeSpent: 0 })));
+        await db.put('meta', { key: 'date', value: today });
+      } else {
+        const saved = await db.getAll('tasks');
+        tasks = saved.length ? saved : defaultTasks.map(t => ({ ...t }));
+      }
+
+      renderTasks();
+      renderStars();
+      el.dbStatus.textContent = "Loaded";
+      el.dbStatus.style.color = "#27ae60";
+    }
+
+    async function saveAll() {
+      const db = await dbPromise;
+      const tx = db.transaction(['tasks', 'meta'], 'readwrite');
+      await tx.objectStore('tasks').clear();
+      for (const task of tasks) await tx.objectStore('tasks').add(task);
+      await tx.objectStore('meta').put({ key: 'stars', value: totalStars });
+      await tx.done;
+    }
+
+    // ====================== Task Functions ======================
+    function addTask() {
+      const text = el.taskInput.value.trim();
+      if (!text) return alert("Enter a task!");
+      tasks.push({
+        text, completed: false, isDefault: false,
+        category: el.categorySelect.value,
+        priority: el.priorityCheckbox.checked,
+        timeSpent: 0
+      });
+      el.taskInput.value = '';
+      el.priorityCheckbox.checked = false;
+      saveAll();
+      renderTasks();
+    }
+
+    function deleteTask(i) {
+      if (tasks[i].isDefault) return alert("Cannot delete default tasks!");
+      if (timers[i]) clearInterval(timers[i]);
+      tasks.splice(i, 1);
+      saveAll();
+      renderTasks();
+    }
+
+    function toggleTask(i) {
+      tasks[i].completed = !tasks[i].completed;
+      if (tasks[i].completed && timers[i]) { clearInterval(timers[i]); delete timers[i]; }
+      saveAll();
+      renderTasks();
+      checkReward();
+    }
+
+    function togglePriority(i) {
+      tasks[i].priority = !tasks[i].priority;
+      saveAll();
+      renderTasks();
+    }
+
+    function toggleTimer(i) {
+      if (timers[i]) {
+        clearInterval(timers[i]);
+        delete timers[i];
+      } else if (!tasks[i].completed) {
+        timers[i] = setInterval(() => {
+          tasks[i].timeSpent++;
+          saveAll();
+          renderTasks();
+        }, 1000);
+      }
+      renderTasks();
+    }
+
+    function formatTime(s) {
+      const m = String(Math.floor(s / 60)).padStart(2, '0');
+      const sec = String(s % 60).padStart(2, '0');
+      return `${m}:${sec}`;
+    }
+
+    function filterTasks(cat) {
+      currentFilter = cat;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.textContent === cat));
+      renderTasks();
+    }
+
+    function checkReward() {
+      const done = tasks.filter(t => t.isDefault && t.completed).length;
+      if (done === TOTAL_DEFAULT_TASKS && !el.rewardMessage.classList.contains('shown')) {
+        totalStars += 5;
+        el.rewardMessage.classList.add('shown');
+        const quote = motivationalQuotes[Math.floor(Math.random() * motivationalQuotes.length)];
+        el.rewardMessage.innerHTML = `AMAZING! All 30 default tasks completed!<br>+5 Stars Earned!<br><em>"${quote}"</em>`;
+        el.rewardMessage.classList.remove('hidden');
+        jsConfetti.addConfetti({ emojis: ['Party', 'Star', 'Trophy', 'Fire'], confettiNumber: 200 });
+        el.rewardSound.play().catch(() => {});
+        saveAll();
+        renderStars();
+      }
+    }
+
+    function renderStars() {
+      el.starContainer.innerHTML = `Total Stars: ${'Star'.repeat(totalStars)} (${totalStars})`;
+    }
+
+    function renderTasks() {
+      el.taskList.innerHTML = '';
+      const list = currentFilter === 'All' ? tasks : tasks.filter(t => t.category === currentFilter);
+
+      list.forEach((task, idx) => {
+        const realIdx = tasks.indexOf(task);
+        const li = document.createElement('li');
+        li.className = task.completed ? 'completed' : '';
+        if (task.priority) li.classList.add('high-priority');
+
+        li.innerHTML = `
+          <input type="checkbox" ${task.completed?'checked':''} onchange="toggleTask(${realIdx})">
+          <button class="priority-btn ${task.priority?'high-priority':''}" onclick="togglePriority(${realIdx})"></button>
+          <span class="category category-${task.category.toLowerCase()}">${task.category}</span>
+          <span class="task-text">${task.text} ${task.isDefault ? '(Default)' : ''}</span>
+          <button class="timer-btn ${timers[realIdx]?'active':''}" onclick="toggleTimer(${realIdx})">
+            ${timers[realIdx] ? 'Stop' : 'Start'} ${formatTime(task.timeSpent)}
+          </button>
+          ${!task.isDefault ? `<button onclick="deleteTask(${realIdx})">Delete</button>` : ''}
+        `;
+        el.taskList.appendChild(li);
+      });
+
+      const done = tasks.filter(t => t.isDefault && t.completed).length;
+      el.taskCount.textContent = `Default Tasks Completed: ${done}/${TOTAL_DEFAULT_TASKS}`;
+      el.progress.style.width = `${(done / TOTAL_DEFAULT_TASKS) * 100}%`;
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+      document.querySelector('.container').classList.toggle('dark-mode');
+      localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+    }
+
+    async function resetTasks() {
+      if (!confirm("This will delete ALL tasks and stars. Continue?")) return;
+      const db = await dbPromise;
+      await db.clear('tasks');
+      await db.clear('meta');
+      tasks = defaultTasks.map(t => ({ ...t, completed: false, timeSpent: 0 }));
+      totalStars = 0;
+      Object.keys(timers).forEach(k => clearInterval(timers[k]));
+      saveAll();
+      renderTasks();
+      renderStars();
+    }
+
+    // Init
+    if (localStorage.getItem('theme') === 'dark') toggleTheme();
+    el.taskInput.addEventListener('keypress', e => e.key === 'Enter' && addTask());
+    loadData().catch(() => {
+      el.dbStatus.textContent = "Failed (using fallback)";
+      el.dbStatus.style.color = "#e74c3c";
+      tasks = defaultTasks.map(t => ({ ...t }));
+      renderTasks();
+    });
+  </script>
+</body>
+</html>
