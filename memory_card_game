@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fruit → Bird Memory Game</title>
+<style>
+  body {
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+    color: #333;
+  }
+  h1 { color: #e91e63; text-shadow: 2px 2px #fff; }
+  #gameInfo {
+    font-size: 1.4em;
+    margin: 10px;
+    padding: 10px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 15px;
+    display: inline-block;
+  }
+  #timer { font-size: 2em; color: #d32f2f; font-weight: bold; }
+  #grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+  }
+  .card {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+  }
+  .card.flip { transform: rotateY(180deg); }
+  .front, .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0; top: 0;
+    border-radius: 12px;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3em;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  .back {
+    background: #673ab7;
+    color: white;
+  }
+  .front {
+    background: white;
+    transform: rotateY(180deg);
+  }
+  button {
+    margin: 15px;
+    padding: 12px 25px;
+    font-size: 1.2em;
+    background: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  button:hover { background: #388e3c; }
+  #winMessage {
+    font-size: 2.5em;
+    color: #4caf50;
+    margin: 20px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Fruit & Bird Memory Challenge!</h1>
+<div id="gameInfo">
+  <div>Round: <span id="round">1</span> | Moves: <span id="moves">0</span></div>
+  <div id="timer">Time: 60s</div>
+</div>
+
+<div id="grid"></div>
+
+<button id="startBtn">Start New Game</button>
+<div id="winMessage"></div>
+
+<script>
+// Emoji sets
+const fruits = ['🍎','🍊','🍌','🍓','🍇','🍉','🍑','🥝','🍍','🥭','🍒','🍋'];
+const birds  = ['🦜','🦉','🦅','🦚','🦩','🐦','🐤','🕊️','🦢','🦆','🪶','🦃'];
+
+let cards = [];
+let flipped = [];
+let moves = 0;
+let timer;
+let secondsLeft;
+let round = 1;
+
+const grid = document.getElementById('grid');
+const roundSpan = document.getElementById('round');
+const movesSpan = document.getElementById('moves');
+const timerSpan = document.getElementById('timer');
+const winMsg = document.getElementById('winMessage');
+
+function initGame() {
+  winMsg.textContent = '';
+  moves = 0;
+  movesSpan.textContent = moves;
+  roundSpan.textContent = round;
+
+  // Choose theme
+  const emojis = (round <= 2) ? fruits : birds;
+  document.body.style.background = (round <= 2) 
+    ? "linear-gradient(135deg, #ff9a9e, #fad0c4)" 
+    : "linear-gradient(135deg, #84fab0, #8fd3f4)";
+
+  // Create 12 pairs
+  cards = [...emojis.slice(0,12), ...emojis.slice(0,12)];
+  cards.sort(() => Math.random() - 0.5);
+
+  grid.innerHTML = '';
+  cards.forEach((emoji, i) => {
+    const card = document.createElement('div');
+    card.classList.add('card');
+    card.dataset.emoji = emoji;
+
+    const back = document.createElement('div');
+    back.classList.add('back');
+    back.textContent = '❓';
+
+    const front = document.createElement('div');
+    front.classList.add('front');
+    front.textContent = emoji;
+
+    card.appendChild(back);
+    card.appendChild(front);
+    card.addEventListener('click', flipCard);
+    grid.appendChild(card);
+  });
+
+  flipped = [];
+  startTimer();
+}
+
+function startTimer() {
+  // Time gets shorter every round
+  secondsLeft = Math.max(30, 70 - (round-1)*10); // 60s → 50s → 40s → 30s...
+  timerSpan.textContent = `Time: ${secondsLeft}s`;
+
+  clearInterval(timer);
+  timer = setInterval(() => {
+    secondsLeft--;
+    timerSpan.textContent = `Time: ${secondsLeft}s`;
+    if (secondsLeft <= 0) {
+      clearInterval(timer);
+      winMsg.innerHTML = `⏰ Time's Up!<br>Try again!`;
+      lockBoard();
+    }
+  }, 1000);
+}
+
+function flipCard() {
+  if (flipped.length === 2 || this.classList.contains('flip')) return;
+  
+  this.classList.add('flip');
+  flipped.push(this);
+
+  if (flipped.length === 2) {
+    moves++;
+    movesSpan.textContent = moves;
+    checkMatch();
+  }
+}
+
+function checkMatch() {
+  const [a, b] = flipped;
+  if (a.dataset.emoji === b.dataset.emoji) {
+    // Match!
+    setTimeout(() => {
+      a.style.visibility = 'hidden';
+      b.style.visibility = 'hidden';
+      flipped = [];
+      checkWin();
+    }, 600);
+  } else {
+    // No match
+    setTimeout(() => {
+      a.classList.remove('flip');
+      b.classList.remove('flip');
+      flipped = [];
+    }, 1000);
+  }
+}
+
+function checkWin() {
+  if (document.querySelectorAll('.card:not(.flip)').length === 0) {
+    clearInterval(timer);
+    winMsg.innerHTML = `🎉 YOU WIN Round ${round}!<br>
+      Time left: ${secondsLeft}s | Moves: ${moves}<br><br>
+      <button onclick="nextRound()">Next Round →</button>`;
+  }
+}
+
+function nextRound() {
+  round++;
+  initGame();
+}
+
+function lockBoard() {
+  document.querySelectorAll('.card').forEach(c => c.removeEventListener('click', flipCard));
+}
+
+document.getElementById('startBtn').addEventListener('click', () => {
+  round = 1;
+  initGame();
+});
+
+// Start the first game automatically
+initGame();
+
+</script>
+</body>
+</html>
